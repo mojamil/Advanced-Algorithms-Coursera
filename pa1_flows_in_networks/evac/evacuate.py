@@ -1,5 +1,5 @@
 # python3
-
+import math
 class Edge:
 
     def __init__(self, u, v, capacity):
@@ -65,6 +65,8 @@ def get_path(graph, from_,path):
     visited[from_]=True
     i=0
     while q:
+        
+
         u=q.pop(0)
         for p in graph.get_ids(u):
             e=graph.get_edge(p)
@@ -77,8 +79,8 @@ def get_path(graph, from_,path):
 def find_edge(graph, from_, to):
     i=0
     for e in graph.edges:
-        if e.u==from_ and e.v==to and e.capacity>e.flow:
-            return (e.capacity,i)
+        if (e.u==from_ and e.v==to) and e.capacity>e.flow:
+            return (e.capacity-e.flow,i)
         i+=1
     
 def max_flow(graph, from_, to):
