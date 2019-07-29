@@ -31,6 +31,8 @@ def SelectPivotElement(a, used_rows, used_columns):
         pivot_element.row += 1
     while used_columns[pivot_element.column]:
         pivot_element.column += 1
+    while not a[pivot_element.row][pivot_element.column]:
+        pivot_element.column +=1
     return pivot_element
 
 def SwapLines(a, b, used_rows, pivot_element):
@@ -41,6 +43,17 @@ def SwapLines(a, b, used_rows, pivot_element):
 
 def ProcessPivotElement(a, b, pivot_element):
     # Write your code here
+    pivot=a[pivot_element.row][pivot_element.column]
+    for i in range(len(a)):
+        a[pivot_element.row][i]=a[pivot_element.row][i]/pivot
+    b[pivot_element.row]=b[pivot_element.row]/pivot
+    pivot=a[pivot_element.row][pivot_element.column]
+    for i in range(len(a)):
+        if i != pivot_element.row:
+            multiplier=a[i][pivot_element.column]/pivot
+            for j in range(len(a)):
+                a[i][j]-=a[pivot_element.row][j]*multiplier
+            b[i]-=b[pivot_element.row]*multiplier
     pass
 
 def MarkPivotElementUsed(pivot_element, used_rows, used_columns):
@@ -54,6 +67,7 @@ def SolveEquation(equation):
 
     used_columns = [False] * size
     used_rows = [False] * size
+
     for step in range(size):
         pivot_element = SelectPivotElement(a, used_rows, used_columns)
         SwapLines(a, b, used_rows, pivot_element)
